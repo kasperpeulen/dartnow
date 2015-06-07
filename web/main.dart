@@ -86,7 +86,6 @@ void initPad(PolymerBase pad) {
     ..on("switch",
       (e) => instances[pad.id + numToName[pad["selectedTab"]]].refresh())
     ..on("run", (e) {
-
     if (pad["dart"] == "") {
       pad["result"] = finalHtml("", pad["htmlmixed"], pad["css"]);
       pad["selectedPage"] = 1;
@@ -94,16 +93,15 @@ void initPad(PolymerBase pad) {
     } else {
       var input = new CompileRequest()
         ..source = pad["dart"];
+      var doc = instances[pad.element.id+"dart"].getDoc();
       SourceRequest request = new SourceRequest()
-        ..offset = getDoc().indexFromPos(getDoc().getCursor())
-        ..source = getDoc().getValue();
+        ..offset = doc.indexFromPos(doc.getCursor())
+        ..source = pad["dart"];
       dartServices
         ..analyze(request).then(
               (AnalysisResults response) {
             if (response.issues.length != 0) {
-
               querySelector("#issues").attributes.remove("hidden");
-
               dartIssues["selectedPage"] = 1;
               dartIssues.setAttribute("issues", JSON.encode(response.toJson()["issues"]));
               pad["progress"] = true;
@@ -111,7 +109,7 @@ void initPad(PolymerBase pad) {
               dartIssues["selectedPage"] = 0;
               querySelector("#issues").attributes["hidden"] = "";
               dartServices
-                ..compile(input).then(
+                ..compile(input).timeout(serviceCallTimeout).then(
                       (CompileResponse response) {
                     pad["result"] = finalHtml(response.result, pad["htmlmixed"], pad["css"]);
                     pad["selectedPage"] = 1;
