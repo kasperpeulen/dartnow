@@ -2290,8 +2290,7 @@ rV:{
 Mg:function(){var z=this.b
 if(z==null){z=new X.Xo(null,this.Q.nQ("getDoc"),P.A(null,null))
 this.b=z}return z},
-static:{Pa:function(a,b){if(b==null)return P.zV(J.Tf($.ca(),"CodeMirror"),[a])
-else return P.zV(J.Tf($.ca(),"CodeMirror"),[a,P.jT(b)])}}},
+static:{Pa:function(a,b){return P.zV(J.Tf($.ca(),"CodeMirror"),[a,P.jT(b)])}}},
 Xo:{
 "^":"IE;b,Q,a",
 PJ:function(a,b,c,d,e){var z=c.u7()
@@ -7541,7 +7540,7 @@ y=J.rr(z.ga4(b))
 z.Wk(b,"span").setAttribute("hidden","")
 if(y==="")y="\n"
 J.oH(z.gO(b),"block")
-x=X.Pa(b,null)
+x=X.Pa(b,P.B(["continueComments",P.B(["continueLineComment",!1],null,null),"autofocus",!0,"autoCloseTags",!0,"autoCloseBrackets",!0,"matchBrackets",!0,"tabSize",2,"indentUnit",2,"extraKeys",P.B(["Cmd-/","toggleComment","Ctrl-/","toggleComment"],null,null)],null,null))
 w=new X.rV(null,x,P.A(null,null))
 $.nf().q(0,x,w)
 x.V7("setOption",["mode",z.gjO(b)])
