@@ -33,7 +33,19 @@ void initEditor(Element pad, Element el) {
   el.querySelector("span").attributes["hidden"] = "";
   if (code == "") code = "\n";
   el.style.display = "block";
-  CodeMirror editor = new CodeMirror.fromElement(el)
+  CodeMirror editor = new CodeMirror.fromElement(el, options: {
+    'continueComments': {'continueLineComment': false},
+    'autofocus': true,
+    'autoCloseTags': true,
+    'autoCloseBrackets': true,
+    'matchBrackets': true,
+    'tabSize': 2,
+    'indentUnit': 2,
+    'extraKeys': {
+      'Cmd-/': 'toggleComment',
+      'Ctrl-/': 'toggleComment'
+    },
+  })
     ..setMode(el.id)
     ..getDoc().setValue(code);
   instances[pad.id + el.id] = editor;
