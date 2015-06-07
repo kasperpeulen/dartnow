@@ -1,0 +1,27 @@
+<html><head><link rel="import" href="../../polymer/polymer.html">
+
+</head><body><dom-module id="x-pretty-json">
+  <template>
+    <pre>[[prettify(object)]]</pre>
+  </template>
+  <script>
+    Polymer({
+      is: 'x-pretty-json',
+
+      properties: {
+        object: {
+          type: Object
+        }
+      },
+
+      prettify: function(object) {
+        if (!object) {
+          return '';
+        }
+
+        return JSON.stringify(object, null, '  ');
+      }
+    })
+  </script>
+</dom-module>
+</body></html>
