@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
+<link rel="import" href="imports.html">
+<link rel="import" href="theme.html">
+<link rel="import" href="style.html">
+<body class="fullbleed horizontal layout start" unresolved>
+
+  <nav>
+    <header id="menu">
+      <iron-icon class="big"
+                 src="https://www.dartlang.org/logos/dart-bird.svg"></iron-icon>
+      <h1>Dart Now!</h1>
+    </header>
+    <paper-menu>
+      <paper-item>A simple web app</paper-item>
+    </paper-menu>
+  </nav>
+
+  <div id="tutorial" class="flex">
+    <header>
+      <iron-icon icon="social:school"></iron-icon>
+      <h1>Tutorial: A simple web app.</h1>
+    </header>
+    <section>
+      <h2>Step 1</h2>
+      <p>The Document Object Model (DOM) represents the structure of a web document as a tree of nodes. When an HTML file is loaded into a browser, the browser interprets the HTML and displays the document in a window. Let's take a look at the following html file. Click the run button to see how it looks.</p>
+      <dart-pad selected-tab="1" id="step1"
+                htmlmixed='<h1>Level 1 header</h1>
+<p>Hello world! This is a paragraph.</p>'
+          ></dart-pad>
+      <h2>Step 2</h2>
+      <p>Web applications written with only HTML may not be very pleasing for your eyes. With CSS we can style the DOM elements. For example, let's use the font Roboto.</p>
+      <dart-pad selected-tab="2" id="step1"
+                htmlmixed='
+<h1>Level 1 header</h1>
+<p>Hello world! This is a paragraph.</p>'
+               css="@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  font-family: 'Roboto', 'Noto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}"></dart-pad>
+      <h2>Step 3</h2>
+      <p>With HTML and CSS only, we can create beautiful websites, but it is all static. To respond to user interaction, we can use dart. Let's respond when the user clicks the paragraph.</p>
+      <dart-pad selected-tab="0" id="step1"
+                htmlmixed='<h1>Level 1 header</h1>
+<p>Hello world! This is a paragraph.</p>'
+                dart="import 'dart:html';
+
+Element p = querySelector('p');
+
+void main(){
+  p.onClick.listen((_) {
+    p.text = 'Don\'t touch me !';
+  });
+}"
+                css="
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  font-family: 'Roboto', 'Noto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}"></dart-pad>
+    </section>
+  </div>
+
+  <div id="documentation">
+    <div class="fixed-right-top vertical layout">
+      <div id="doc">
+        <header>
+          <iron-icon icon="av:library-books"></iron-icon>
+          <h1>Documentation</h1>
+        </header>
+        <section>
+          <dart-doc element="print" dartdoc="hello"></dart-doc>
+        </section>
+      </div>
+      <div id="issues" hidden>
+        <header>
+          <iron-icon icon="icons:error"></iron-icon>
+          <h1>Issues</h1>
+        </header>
+        <section>
+          <dart-issues></dart-issues>
+        </section>
+      </div>
+    </div>
+  </div>
+  <script type="application/dart" src="main.dart"></script>
+</body>

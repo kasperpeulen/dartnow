@@ -1,0 +1,30 @@
+<link rel="import" href="imports.html">
+
+<dom-module id="dart-issues">
+<style>
+
+</style>
+<template>
+<iron-pages selected="{{selectedPage}}">
+  <p>Your code has no issues :)</p>
+  <section>
+    <template is="dom-repeat" items="{{issues}}">
+    <div><span>{{item.kind}}</span> at line <span>{{item.line}}</span>:&nbsp;<span>{{item.message}}</span></div>
+    </template>
+  </section>
+</iron-pages>
+
+</template>
+<script>
+Polymer({
+  properties: {
+    selectedPage: {
+      type: Number,
+      value: 0
+    }, issues: {
+      type: Array
+    }
+  }
+});
+</script>
+</dom-module>
