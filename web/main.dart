@@ -30,7 +30,8 @@ void main() {
 
 void initEditor(Element pad, Element el) {
   String code = el.text.trim();
-  el.text = "";
+  el.querySelector("span").attributes["hidden"] = "";
+  if (code == "") code = "\n";
   el.style.display = "block";
   CodeMirror editor = new CodeMirror.fromElement(el)
     ..setMode(el.id)
@@ -86,7 +87,7 @@ void initPad(PolymerBase pad) {
     ..on("switch",
       (e) => instances[pad.id + numToName[pad["selectedTab"]]].refresh())
     ..on("run", (e) {
-    if (pad["dart"] == "") {
+    if (pad["dart"].trim() == "") {
       pad["result"] = finalHtml("", pad["htmlmixed"], pad["css"]);
       pad["selectedPage"] = 1;
       pad["progress"] = true;
