@@ -6,6 +6,9 @@ h1 {
  @apply(--paper-font-code2);
   font-size: 16px !important;
 }
+h1.css {
+  font-size: 16pt !important;
+}
 h2 {
   font-size: 15px !important;
 }
@@ -15,13 +18,42 @@ iron-icon.small {
   margin-right: 5px;
 }
 
+#values dt code {
+  font-size: 12pt;
+  font-family: 'Inconsolata', monospace;
+  font-weight: bold;
+}
+
+#values dd {
+  margin: -10px 0px 10px 20px;
+}
+
+section {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+paper-button {
+  padding-bottom: 10px;
+}
 </style>
 <template>
 <iron-pages selected="{{selectedPage}}">
-  <p>You can look up documentation by clicking on some dart code!</p>
+  <p>You can look up documentation by clicking on some dart or css code!</p>
   <section>
     <h1><iron-icon class="small" src="http://www.yellosoft.us/public/images/dart.svg"></iron-icon>{{element}}</h1>
     <marked-element markdown="{{dartdoc}}"></marked-element>
+  </section>
+  <section>
+    <h1 class="css"><iron-icon class="small" src="http://io13-high-dpi.appspot.com/images/CSS3_Logo.svg"></iron-icon>{{csselement}}</h1>
+    <marked-element markdown="{{cssdoc}}"></marked-element>
+    <div id="values">
+    <template is="dom-repeat" items="{{cssvalues}}">
+      <dt><code>{{item.value}}</code></dt>
+      <dd><marked-element markdown="{{item.description}}"></marked-element></dd>
+    </template>
+    </div>
+    <paper-button on-tap="openWP" raised=""><iron-icon src="http://upload.wikimedia.org/wikipedia/commons/2/2c/WebPlatform_logo_no_text_png.png"></iron-icon> Read more</paper-button>
   </section>
 </iron-pages>
 
@@ -32,7 +64,14 @@ Polymer({
     selectedPage: {
       type: Number,
       value: 0
+    }, cssvalues: {
+      type: Array
     }
+  },
+  openWP : function(e) {
+    window.open(
+        "https://docs.webplatform.org/wiki/css/properties/" + this.csselement,
+        "_blank");
   }
 });
 </script>
