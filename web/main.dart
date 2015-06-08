@@ -35,7 +35,6 @@ void initEditor(Element pad, Element el) {
   el.style.display = "block";
   CodeMirror editor = new CodeMirror.fromElement(el, options: {
     'continueComments': {'continueLineComment': false},
-    'autofocus': true,
     'autoCloseTags': true,
     'autoCloseBrackets': true,
     'matchBrackets': true,
@@ -60,38 +59,73 @@ void initEditor(Element pad, Element el) {
     activeEditor = editor;
     activePad = new PolymerBase.from(pad);
     // Delay to give codemirror time to process the mouse event.
-    if (el.id != "dart") return;
     Timer.run(() {
-      SourceRequest request = new SourceRequest()
-        ..offset = getDoc().indexFromPos(getDoc().getCursor())
-        ..source = getDoc().getValue();
-      dartServices.document(request).timeout(serviceCallTimeout).then(
-              (DocumentResponse result) {
-                Map<String, String> info = result.info;
-                if (info['description'] == null && info['dartdoc'] == null) {
-                  return;
-                }
-                if (info['dartdoc'] == null) info['dartdoc'] = "";
-                dartDoc["element"] = info['description'];
-                dartDoc["dartdoc"] = info['dartdoc'].replaceAllMapped(
-                    new RegExp(r"(\[.+\])\s(\(.+\))"), (m) {
-                      return m[1]+m[2];
-                    });
-                dartDoc["dartdoc"] = dartDoc["dartdoc"].replaceAllMapped(
-                    new RegExp(r"(\s)\[(\w{3,})\](\s)"), (m) {
-                      return m[1]+"`"+m[2]+"`"+m[3];
-                    });
-                dartDoc['selectedPage'] = 1;
-                dartDoc.element.querySelectorAll("pre code").forEach((e) {
-                  String source = e.text.trim();
-                  e.text = "";
-                  new CodeMirror.fromElement(e,options: inlineOptions)
-                ..getDoc().setValue(source);
-                });
-                context["Polymer"].callMethod("updateStyles");
-          });
+      if (el.id == "dart") {
+        computeDartDoc();
+      } else if (el.id == "css") {
+        computeCssDoc();
+      }
+      });
     });
-  });
+}
+
+computeCssDoc() {
+  const apiUrl = "https://docs.webplatform.org/w/api.php?action=ask&format=json&query=";
+  Token token = activeEditor.getTokenAt(activeEditor.getDoc().getCursor());
+  if (token.type == 'property') {
+    String name = token.string;
+    String propertyQuery = '[[css/properties/$name]]'
+    '|?Summary|?Possible_value|?Applies_to|?Inherited|?Initial_value';
+    String valueQuery = '[[Value for property::css/properties/$name]]'
+    '|?Property value|?Property value description';
+
+    try {
+      HttpRequest.getString(apiUrl + propertyQuery).then((property) {
+        HttpRequest.getString(apiUrl + valueQuery).then((values) {
+        CssProperty css = new CssProperty.fromJSON(name,property,values);
+        dartDoc['csselement'] = css.name;
+        dartDoc['cssdoc'] = css.summary;
+        dartDoc.setAttribute("cssvalues",
+        JSON.encode(css.possibleValues.map(
+                (e) => {"value" : e, "description" : css.valuesWithDescription[e]}).toList()));
+        dartDoc['selectedPage'] = 2;
+        });
+      });
+
+    } on Error {
+      return;
+    }
+  }
+}
+
+void computeDartDoc() {
+  SourceRequest request = new SourceRequest()
+    ..offset = getDoc().indexFromPos(getDoc().getCursor())
+    ..source = getDoc().getValue();
+  dartServices.document(request).timeout(serviceCallTimeout).then(
+          (DocumentResponse result) {
+        Map<String, String> info = result.info;
+        if (info['description'] == null && info['dartdoc'] == null) {
+          return;
+        }
+        if (info['dartdoc'] == null) info['dartdoc'] = "";
+        dartDoc["element"] = info['description'];
+        dartDoc["dartdoc"] = info['dartdoc'].replaceAllMapped(
+            new RegExp(r"(\[.+\])\s(\(.+\))"), (m) {
+              return m[1] + m[2];
+            });
+        dartDoc["dartdoc"] = dartDoc["dartdoc"].replaceAllMapped(
+            new RegExp(r"(\s)\[(\w{3,})\](\s)"), (m) {
+              return m[1] + "`" + m[2] + "`" + m[3];
+            });
+        dartDoc['selectedPage'] = 1;
+        dartDoc.element.querySelectorAll("pre code").forEach((e) {
+          String source = e.text.trim();
+          e.text = "";
+          new CodeMirror.fromElement(e, options: inlineOptions)
+            ..getDoc().setValue(source);
+        });
+      });
 }
 
 void initPad(PolymerBase pad) {
@@ -127,7 +161,9 @@ void initPad(PolymerBase pad) {
                     pad["result"] = finalHtml(response.result, pad["htmlmixed"], pad["css"]);
                     pad["selectedPage"] = 1;
                     pad["progress"] = true;
-                  });
+                  }).catchError((e) {
+                pad["progress"] = true;
+              });
             }
           });
     }
@@ -158,3 +194,58 @@ Map inlineOptions = {
   "readOnly" : true,
   "mode" : "dart"
 };
+
+class CssProperty {
+  String name;
+  String initialValue;
+  String appliesTo;
+  String inherited;
+  String summary;
+  List<String> possibleValues;
+  Map<String, String> valuesWithDescription;
+
+  CssProperty.fromJSON(this.name, var property, var values) {
+    property = JSON.decode(property);
+    property
+    = property["query"]["results"]["css/properties/$name"]["printouts"];
+    summary = property["Summary"][0].replaceAllMapped(
+        new RegExp(r"\[\[(.+)\|(.+)\]\]"), (m) {
+          return "[" + m[2] + "](https://docs.webplatform.org/wiki/" + m[1] + ")";
+        });
+    appliesTo = property["Applies to"][0];
+    inherited = property["Inherited"][0];
+    initialValue = property["Initial value"][0];
+    possibleValues = property["Possible value"];
+
+    values = JSON.decode(values);
+    values = values["query"]["results"];
+    valuesWithDescription = {};
+    values.values.forEach((result) {
+      result = result["printouts"];
+      String value = result["Property value"][0];
+      String description = result["Property value description"][0];
+      valuesWithDescription[value] = description.replaceAllMapped(
+          new RegExp(r"\[\[(.+)\|(.+)\]\]"), (m) {
+            return "[" + m[2] + "](https://docs.webplatform.org/wiki/" + m[1] + ")";
+          });
+    });
+  }
+//  void toHtml() {
+//    $("h1 code").innerHtml = name;
+//    $("#summary").innerHtml = summary;
+//    $("#overview").innerHtml =
+//    "<dt>Initial value</dt><dd>$initialValue</dd>"
+//    "<dt>Applies to</dt><dd>$appliesTo</dd>"
+//    "<dt>Inherited</dt><dd>$inherited</dd>";
+//    $("#values").innerHtml = "";
+//    for (String value in possibleValues) {
+//      $("#values").innerHtml +=
+//      "<dt><code>$value</code></dt>"
+//      "<dd>${valuesWithDescription[value]}</dd>";
+//    }
+//    $("#read-more").onClick.listen((e)
+//    => window.open(
+//        "https://docs.webplatform.org/wiki/css/properties/$name",
+//        "_blank"));
+//  }
+}
