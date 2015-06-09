@@ -525,10 +525,10 @@ compileDart() async {
   var compiled = JSON.decode(request.response)['result'];
   scope['htmloutput'] =
   '<!doctype html>'
-  '<ht'+'ml>'
-  '  <he'+'ad><style>${css.value}</style></he'+'ad>'
-  '  <body>${html.value}<scr'+'ipt>$compiled</scr'+'ipt></body>'
-  '</ht'+'ml>';
+  '<html>'
+  '  <head><style>${css.value}</style></head>'
+  '  <body>${html.value}<script>$compiled</script></body>'
+  '</html>';
 }"></dart-pad>
 </section>
 </template>

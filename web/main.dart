@@ -166,7 +166,7 @@ void initPad(PolymerBase pad) {
       pad["progress"] = true;
     } else {
       var input = new CompileRequest()
-        ..source = pad["dart"];
+        ..source = pad["dart"].replaceAll("script>","scr'+'ipt>").replaceAll("head>","he'+'ad>");
       var doc = instances[pad.element.id+"dart"].getDoc();
       SourceRequest request = new SourceRequest()
         ..offset = doc.indexFromPos(doc.getCursor())
@@ -204,6 +204,8 @@ String finalHtml(String javascript, String html, String css) {
     if (html.contains("</head>")) {
       html  = html.replaceFirst("</head>", "<body>" + html + "<script>$javascript</script></body>");
     } else {
+      javascript.replaceAll("head>","he'+'ad>");
+
       html = "<body>" + html + "<script>$javascript</script></body>";
     }
   }
