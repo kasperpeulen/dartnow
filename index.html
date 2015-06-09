@@ -10982,17 +10982,19 @@ nav {
   margin: 20px;
 }
 #documentation, #documentation div {
-    width: 600px;
+  width: 600px;
 }
 dart-doc .CodeMirror {
-    width: 580px !important;
+  width: 580px !important;
 }
+
 ul {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
   padding-left: 20px;
 }
+
 
 @media (max-width: 1500px) {
   #documentation, #documentation div {
@@ -11393,43 +11395,42 @@ section {
 
 @media (max-height: 1100px) {
   section {
-    max-height: 880px;
+    max-height: 900px;
   }
 }
 
-
 @media (max-height: 1000px) {
   section {
-    max-height: 780px;
+    max-height: 800px;
   }
 }
 
 @media (max-height: 900px) {
   section {
-    max-height: 680px;
+    max-height: 700px;
   }
 }
 
 @media (max-height: 800px) {
   section {
-    max-height: 580px;
+    max-height: 600px;
   }
 }
 
 @media (max-height: 700px) {
   section {
-    max-height: 480px;
+    max-height: 500px;
   }
 }
 
 @media (max-height: 600px) {
   section {
-    max-height: 380px;
+    max-height: 400px;
   }
 }
 @media (max-height: 500px) {
   section {
-    max-height: 280px;
+    max-height: 300px;
   }
 }
 
@@ -12224,10 +12225,10 @@ compileDart() async {
   var compiled = JSON.decode(request.response)['result'];
   scope['htmloutput'] =
   '<!doctype html>'
-  '<ht'+'ml>'
-  '  <he'+'ad><style>${css.value}</style></he'+'ad>'
-  '  <body>${html.value}<scr'+'ipt>$compiled</scr'+'ipt></body>'
-  '</ht'+'ml>';
+  '<html>'
+  '  <head><style>${css.value}</style></head>'
+  '  <body>${html.value}<script>$compiled</script></body>'
+  '</html>';
 }"></dart-pad>
 </section>
 </template>
@@ -16872,5 +16873,4 @@ Polymer({
     </template>
     <script src="main.dart.js"></script>
   
-
 </body></html>

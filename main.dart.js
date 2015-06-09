@@ -7784,8 +7784,9 @@ kr:function(a){a.FW(0,"switch",new F.tU(a))
 a.FW(0,"run",new F.zp(a))},
 hR:function(a,b,c){var z=J.U6(b)
 if(z.tg(b,"</body>")===!0)b=z.mA(b,"</body>","<script>"+H.d(a)+"</script></body>")
-else b=z.tg(b,"</head>")===!0?z.mA(b,"</head>",C.xB.g("<body>",b)+("<script>"+H.d(a)+"</script></body>")):C.xB.g("<body>",b)+("<script>"+H.d(a)+"</script></body>")
-return C.xB.tg(b,"<head>")?C.xB.mA(b,"<head>","<head><style>"+H.d(c)+"</style>"):"<html><head><style>"+H.d(c)+"</style></head>"+b+"</html>"},
+else if(z.tg(b,"</head>")===!0)b=z.mA(b,"</head>",C.xB.g("<body>",b)+("<script>"+H.d(a)+"</script></body>"))
+else{J.JA(a,"head>","he'+'ad>")
+b=C.xB.g("<body>",b)+("<script>"+H.d(a)+"</script></body>")}return C.xB.tg(b,"<head>")?C.xB.mA(b,"<head>","<head><style>"+H.d(c)+"</style>"):"<html><head><style>"+H.d(c)+"</style></head>"+b+"</html>"},
 L:{
 "^":"r:6;",
 $2:[function(a,b){P.rT(C.R,new F.oZ())},null,null,4,0,null,2,[],38,[],"call"]},
@@ -7911,7 +7912,9 @@ if(J.rr(J.Tf(z.gcq(),"dart"))===""){y=F.hR("",J.Tf(z.gcq(),"htmlmixed"),J.Tf(z.g
 J.X(z.gcq(),"result",y)
 J.X(z.gcq(),"selectedPage",1)
 J.X(z.gcq(),"progress",!0)}else{x=new E.WR(null,null,null)
-x.a=J.Tf(z.gcq(),"dart")
+y=J.JA(J.Tf(z.gcq(),"dart"),"script>","scr'+'ipt>")
+H.Yx("he'+'ad>")
+x.a=H.ys(y,"head>","he'+'ad>")
 w=$.Bd().p(0,J.WB(J.F8(z.Q),"dart")).Mg()
 v=new E.po(null,null)
 y=w.xx()
