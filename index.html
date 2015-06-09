@@ -11881,7 +11881,7 @@ h1 {
   <p>In this tutorial we will create a little dart app that will compile the dart code the user gives us and show the generated javascript in an iframe. To compile the dart code we will use <a href="https://github.com/dart-lang/dart-services">dart-services</a>. The UI will be build in <a href="https://elements.polymer-project.org/">polymer 1.0</a> iron and paper elements. As polymer 1.0 dart is not yet out at the moment this tutorial is written, we will use a little bit of js interop to make everything work out.</p>
 
   <h2>Step 1</h2>
-  <p>First let's use some polymer 1.0 to quickly create the backbone of our app. We create a couple of tabs which let's the user switch between 3 different textareas. One for the html, one for the css, and one for the dart code. If the user clicks on the run button, we want to display it in an iframe.</p>
+  <p>First let's use some polymer 1.0 to quickly create the backbone of our app. We create a couple of tabs which let's the user switch between 3 different textareas. One for the html, one for the css, and one for the dart code. If the user clicks at the run button, we want to display it in an iframe.</p>
   <dart-pad selected-tab="1" id="cstep1" htmlmixed="
 <link rel=&quot;import&quot; href=&quot;elements/paper-toolbar/paper-toolbar.html&quot;>
 <link rel=&quot;import&quot; href=&quot;elements/paper-tabs/paper-tabs.html&quot;>
@@ -11907,7 +11907,7 @@ h1 {
 <iframe></iframe>
 "></dart-pad>
   <h2>Step 2</h2>
-  <p>I hope you haven't run our app yet, because it looks a bit ugly! Let's quickly flirt it up before we proceed. Note that you can click on the css properties, if you want to learn more about them.</p>
+  <p>I hope you haven't run our app yet, because it looks a bit ugly! Let's quickly flirt it up before we proceed. Note that you can click at the css properties, if you want to learn more about them.</p>
   <dart-pad selected-tab="2" id="cstep2" htmlmixed="
 <link rel=&quot;import&quot; href=&quot;elements/paper-toolbar/paper-toolbar.html&quot;>
 <link rel=&quot;import&quot; href=&quot;elements/paper-tabs/paper-tabs.html&quot;>
@@ -11990,7 +11990,7 @@ iframe {
 }"></dart-pad>
   <h2>Step 4</h2>
   <p>Of course, we want that clicking a tab brings the user to the right textarea. This can be done by using
- <code>&lt;template is="dom-bind"&gt;</code>.</p> And setting the selected attribute of both paper-tabs and iron-pages to <code>selected="{{selected}}"</code>.
+ <code>&lt;template is="dom-bind"&gt;</code>. And setting the <code>selected</code> attribute of both <code>paper-tabs</code> and <code>iron-pages</code> to <code>selected="{{selected}}"</code>.</p>
   <dart-pad selected-tab="1" id="cstep4" htmlmixed="
 <link rel=&quot;import&quot; href=&quot;tutorialimports.html&quot;>
 <style is=&quot;custom-style&quot;>
@@ -12089,7 +12089,7 @@ void main() {
 }
 "></dart-pad>
   <h2>Step 6</h2>
-  <p>Before we go for compiling dart to javascript, let's first see if we can get the html and css to render in an iframe. We add an event handler to the paper-fab (in the html code), and when this event is fired, we will use the <code>srcdoc</code> attribute to update the content of the iframe:</p><pre><code>&lt;iframe srcdoc="{{htmloutput}}"&gt;&lt;/iframe&gt;</code></pre>
+  <p>Before we go for compiling dart to javascript, let's first see if we can get the html and css to render in an iframe. We add an event handler to the paper-fab (in the html code), and when this event is fired, we will use the <code>srcdoc</code> attribute to update the content of the iframe:<br><code>&lt;iframe srcdoc="{{htmloutput}}"&gt;</code></p>
   <dart-pad selected-tab="0" id="cstep6" htmlmixed="
 <link rel=&quot;import&quot; href=&quot;tutorialimports.html&quot;>
 <style is=&quot;custom-style&quot;>

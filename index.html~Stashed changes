@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  <title>Dart Now!</title>
+  <script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="imports.html">
+  <link rel="import" href="theme.html">
+  <link rel="import" href="style.html">
+</head>
+  <body class="fullbleed horizontal layout start" unresolved="">
+    <template is="dom-bind">
+    <nav>
+      <header id="menu">
+        <iron-icon class="big" src="https://www.dartlang.org/logos/dart-bird.svg"></iron-icon>
+        <h1>Dart Now!</h1>
+      </header>
+      <paper-menu on-tap="refreshEditor" selected="{{selectedPage}}">
+        <paper-item>A simple web app</paper-item>
+        <paper-item>Compile dart online!</paper-item>
+      </paper-menu>
+    </nav>
+
+    <div id="tutorial" class="flex">
+      <iron-pages selected="{{selectedPage}}">
+        <tutorial-simple></tutorial-simple>
+        <tutorial-compile></tutorial-compile>
+      </iron-pages>
+    </div>
+
+    <div id="documentation">
+      <div class="fixed-right-top vertical layout">
+        <div id="doc">
+          <header>
+            <iron-icon icon="av:library-books"></iron-icon>
+            <h1>Documentation</h1>
+          </header>
+          <section>
+            <dart-doc element="print" dartdoc="hello"></dart-doc>
+          </section>
+        </div>
+        <div id="issues" hidden="">
+          <header>
+            <iron-icon icon="icons:error"></iron-icon>
+            <h1>Issues</h1>
+          </header>
+          <section>
+            <dart-issues></dart-issues>
+          </section>
+        </div>
+      </div>
+    </div>
+    </template>
+    <script src="main.dart.js"></script>
+
+  </body></html>
