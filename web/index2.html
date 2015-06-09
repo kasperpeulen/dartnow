@@ -1,0 +1,39 @@
+<script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
+<link rel="import" href="tutorialimports.html">
+<style>
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+}
+iron-pages, paper-tabs {
+  width: 100%;
+}
+iframe {
+  border: none;
+}
+</style>
+<body>
+  <template is="dom-bind">
+  <paper-toolbar>
+    <paper-tabs class="fit" selected="{{selected}}">
+      <paper-tab>HTML</paper-tab>
+      <paper-tab>CSS</paper-tab>
+      <paper-tab>Dart</paper-tab>
+    </paper-tabs>
+  </paper-toolbar>
+
+  <iron-pages selected="{{selected}}">
+    <textarea id="html"><p>Hello world!</p></textarea>
+    <textarea id="css">p{ font-size:20px}</textarea>
+    <textarea id="dart">import "dart:html";
+    void main() => querySelector("p").text = "Is this working?";
+    </textarea>
+  </iron-pages>
+  <paper-fab on-tap="showOutput" class="block" mini icon="av:play-arrow"></paper-fab>
+  <iframe srcdoc="{{htmloutput}}"></iframe>
+  </template>
+  <script type="application/dart" src="main2.dart">
+
+  </script>
+</body>

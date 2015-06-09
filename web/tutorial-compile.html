@@ -1,0 +1,541 @@
+<link rel="import" href="imports.html">
+
+<dom-module id="tutorial-compile">
+<style>
+header {
+  padding: 20px 14px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+section {
+  padding: 10px;
+}
+
+
+iron-icon {
+  color: var(--default-primary-color);
+  margin-right: 10px;
+}
+
+iron-icon.big {
+  height: 50px;
+  width: 50px;
+}
+
+
+iron-icon.small {
+  height: 15px;
+  width: 15px;
+}
+
+h1, h2 {
+  font-weight: 400;
+}
+
+ h4 {
+  line-height: 24px
+}
+
+body, h1, h2, h3, h4 {
+  font-weight: 400
+}
+
+body, h5, h6, p {
+  font-size: 13px;
+  line-height: 20px
+}
+
+a, body, paper-toolbar {
+  color: #424242
+}
+
+body {
+  font-family: Roboto, Noto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent
+}
+
+code, pre {
+  font-family: Inconsolata, monospace;
+  font-size: 14px;
+}
+
+a, h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility
+}
+
+a {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .018em
+}
+
+h1 {
+  font-size: 45px;
+  letter-spacing: -.018em
+}
+
+h2 {
+  font-size: 18px;
+  letter-spacing: 0;
+  margin: 8px 0
+}
+
+h3 {
+  font-size: 24px;
+  letter-spacing: -.012em;
+  line-height: 32px
+}
+
+h4 {
+  font-size: 16px
+}
+
+paper-toolbar {
+  transition: height 450ms cubic-bezier(.55, 0, .1, 1)
+}
+
+paper-toolbar.medium-tall {
+  height: 107px
+}
+
+paper-toolbar nav {
+  margin: 12px 0 0
+}
+
+paper-toolbar nav a {
+  display: inline-block;
+  font-weight: 500;
+  line-height: 50px;
+  text-transform: none;
+  color: #666;
+  margin: 0 12px;
+  padding: 0 4px
+}
+
+paper-toolbar nav a:hover {
+  color: #536DFE
+}
+
+paper-toolbar nav a:first-child {
+  margin-left: 0
+}
+
+paper-toolbar nav .active {
+  color: #000;
+  border-bottom: 2px solid #7986CB
+}
+
+
+p a {
+  text-transform: none;
+  color: var(--default-primary-color);
+}
+
+li p {
+  margin: 0
+}
+
+aside {
+  margin: 40px;
+  padding: 20px 40px;
+  background-color: #fafafa;
+  border: 1px solid #e5e5e5
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+</style>
+<template>
+<header>
+  <iron-icon icon="social:school"></iron-icon>
+  <h1>Tutorial: Compile dart to javascript with dart services.</h1>
+</header>
+<section>
+  <p>In this tutorial we will create a little dart app that will compile the dart code the user gives us and show the generated javascript in an iframe. To compile the dart code we will use <a href="https://github.com/dart-lang/dart-services">dart-services</a>. The UI will be build in <a href="https://elements.polymer-project.org/">polymer 1.0</a> iron and paper elements. As polymer 1.0 dart is not yet out at the moment this tutorial is written, we will use a little bit of js interop to make everything work out.</p>
+
+  <h2>Step 1</h2>
+  <p>First let's use some polymer 1.0 to quickly create the backbone of our app. We create a couple of tabs which let's the user switch between 3 different textareas. One for the html, one for the css, and one for the dart code. If the user clicks on the run button, we want to display it in an iframe.</p>
+  <dart-pad selected-tab="1" id="cstep1"
+            htmlmixed='
+<link rel="import" href="elements/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="elements/paper-tabs/paper-tabs.html">
+<link rel="import" href="elements/iron-pages/iron-pages.html">
+<link rel="import" href="elements/paper-fab/paper-fab.html">
+<link rel="import" href="elements/iron-icons/av-icons.html">
+
+<paper-toolbar>
+  <paper-tabs selected="0">
+    <paper-tab>HTML</paper-tab>
+    <paper-tab>CSS</paper-tab>
+    <paper-tab>Dart</paper-tab>
+  </paper-tabs>
+</paper-toolbar>
+<iron-pages selected="0">
+  <textarea><p>Hello world!</p></textarea>
+  <textarea>p{ font-size:20px}</textarea>
+  <textarea>import "dart:html";
+  void main() => querySelector("p").text = "Is this working?";
+  </textarea>
+</iron-pages>
+<paper-fab class="block" mini icon="av:play-arrow"></paper-fab>
+<iframe></iframe>
+'
+      ></dart-pad>
+  <h2>Step 2</h2>
+  <p>I hope you haven't run our app yet, because it looks a bit ugly! Let's quickly flirt it up before we proceed. Note that you can click on the css properties, if you want to learn more about them.</p>
+  <dart-pad selected-tab="2" id="cstep2"
+            htmlmixed='
+<link rel="import" href="elements/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="elements/paper-tabs/paper-tabs.html">
+<link rel="import" href="elements/iron-pages/iron-pages.html">
+<link rel="import" href="elements/paper-fab/paper-fab.html">
+<link rel="import" href="elements/iron-icons/av-icons.html">
+
+<paper-toolbar>
+  <paper-tabs class="fit" selected="0">
+    <paper-tab>HTML</paper-tab>
+    <paper-tab>CSS</paper-tab>
+    <paper-tab>Dart</paper-tab>
+  </paper-tabs>
+</paper-toolbar>
+<iron-pages selected="0">
+  <textarea><p>Hello world!</p></textarea>
+  <textarea>p{ font-size:20px}</textarea>
+  <textarea>import "dart:html";
+  void main() => querySelector("p").text = "Is this working?";
+  </textarea>
+</iron-pages>
+<paper-fab class="block" mini icon="av:play-arrow"></paper-fab>
+<iframe></iframe>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"></dart-pad>
+  <h2>Step 3</h2>
+  <p>We can style the font using a mixin from the paper-styles import. To save some space, I have created a little shortcut for the polymer imports we use.</p>
+  <dart-pad selected-tab="1" id="cstep3"
+            htmlmixed='
+<link rel="import" href="tutorialimports.html">
+<style is="custom-style">
+body,textarea {
+  @apply(--paper-font-body1)
+}
+</style>
+
+<paper-toolbar>
+  <paper-tabs class="fit" selected="0">
+    <paper-tab>HTML</paper-tab>
+    <paper-tab>CSS</paper-tab>
+    <paper-tab>Dart</paper-tab>
+  </paper-tabs>
+</paper-toolbar>
+
+<iron-pages selected="0">
+  <textarea><p>Hello world!</p></textarea>
+  <textarea>p{ font-size:20px}</textarea>
+  <textarea>import "dart:html";
+  void main() => querySelector("p").text = "Is this working?";
+  </textarea>
+</iron-pages>
+<paper-fab class="block" mini icon="av:play-arrow"></paper-fab>
+<iframe></iframe>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"></dart-pad>
+  <h2>Step 4</h2>
+  <p>Of course, we want that clicking a tab brings the user to the right textarea. This can be done by using
+ <code>&lt;template is="dom-bind"&gt;</code>.</p> And setting the selected attribute of both paper-tabs and iron-pages to <code>selected="{{selected}}"</code>.
+  <dart-pad selected-tab="1" id="cstep4"
+            htmlmixed='
+<link rel="import" href="tutorialimports.html">
+<style is="custom-style">
+body,textarea {
+  @apply(--paper-font-body1)
+}
+</style>
+
+<template is="dom-bind">
+  <paper-toolbar>
+    <paper-tabs class="fit" selected="{{selected}}">
+      <paper-tab>HTML</paper-tab>
+      <paper-tab>CSS</paper-tab>
+      <paper-tab>Dart</paper-tab>
+    </paper-tabs>
+  </paper-toolbar>
+
+  <iron-pages selected="{{selected}}">
+    <textarea><p>Hello world!</p></textarea>
+    <textarea>p{ font-size:20px}</textarea>
+    <textarea>import "dart:html";
+    void main() => querySelector("p").text = "Is this working?";
+    </textarea>
+  </iron-pages>
+  <paper-fab class="block" mini icon="av:play-arrow"></paper-fab>
+  <iframe></iframe>
+</template>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"></dart-pad>
+  <h2>Step 5</h2>
+  <p>Now the tabs respond to clicks, but we also have to set an initial value. We can do this by using a tiny bit of js interop.</p>
+  <dart-pad selected-tab="0" id="cstep5"
+            htmlmixed='
+<link rel="import" href="tutorialimports.html">
+<style is="custom-style">
+body,textarea {
+  @apply(--paper-font-body1)
+}
+</style>
+
+<template is="dom-bind">
+  <paper-toolbar>
+    <paper-tabs class="fit" selected="{{selected}}">
+      <paper-tab>HTML</paper-tab>
+      <paper-tab>CSS</paper-tab>
+      <paper-tab>Dart</paper-tab>
+    </paper-tabs>
+  </paper-toolbar>
+
+  <iron-pages selected="{{selected}}">
+    <textarea><p>Hello world!</p></textarea>
+    <textarea>p{ font-size:20px}</textarea>
+    <textarea>import "dart:html";
+    void main() => querySelector("p").text = "Is this working?";
+    </textarea>
+  </iron-pages>
+  <paper-fab class="block" mini icon="av:play-arrow"></paper-fab>
+  <iframe></iframe>
+</template>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"
+            dart="
+import 'dart:html';
+import 'dart:js';
+
+var $ = querySelector;
+var scope =
+    new JsObject.fromBrowserObject($('template[is=dom-bind]'));
+
+void main() {
+  scope['selected'] = 0;
+}
+"></dart-pad>
+  <h2>Step 6</h2>
+  <p>Before we go for compiling dart to javascript, let's first see if we can get the html and css to render in an iframe. We add an event handler to the paper-fab (in the html code), and when this event is fired, we will use the <code>srcdoc</code> attribute to update the content of the iframe:</p><pre><code>&lt;iframe srcdoc="{{htmloutput}}"&gt;&lt;/iframe&gt;</code></pre>
+  <dart-pad selected-tab="0" id="cstep6"
+            htmlmixed='
+<link rel="import" href="tutorialimports.html">
+<style is="custom-style">
+body,textarea {
+  @apply(--paper-font-body1)
+}
+</style>
+
+<template is="dom-bind">
+  <paper-toolbar>
+    <paper-tabs class="fit" selected="{{selected}}">
+      <paper-tab>HTML</paper-tab>
+      <paper-tab>CSS</paper-tab>
+      <paper-tab>Dart</paper-tab>
+    </paper-tabs>
+  </paper-toolbar>
+
+  <iron-pages selected="{{selected}}">
+    <textarea id="html"><p>Hello world!</p></textarea>
+    <textarea id="css">p{ font-size:20px}</textarea>
+    <textarea id="dart">import "dart:html";
+    void main() => querySelector("p").text = "Is this working?";
+    </textarea>
+  </iron-pages>
+  <paper-fab on-tap="showOutput" class="block" mini icon="av:play-arrow"></paper-fab>
+  <iframe srcdoc="{{htmloutput}}"></iframe>
+</template>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"
+            dart="
+import 'dart:html';
+import 'dart:js';
+
+var $ = querySelector;
+var scope =
+    new JsObject.fromBrowserObject($('template[is=dom-bind]'));
+TextAreaElement html = $('#html');
+TextAreaElement css = $('#css');
+
+void main() {
+  scope['selected'] = 0;
+  scope['showOutput'] = (e, object) {
+    scope['htmloutput'] =
+    '<!doctype html>'
+    '<ht'+'ml>'
+    '  <he'+'ad><style>${css.value}</style></he'+'ad>'
+    '  <body>${html.value}</body>'
+    '</ht'+'ml>';
+  };
+}
+"></dart-pad>
+  <h2>Step 7</h2>
+  <p>Okay, and then finally the exciting step, let's compile the dart to javascript. For this we use the dart-services api. </p>
+  <dart-pad selected-tab="0" id="cstep7"
+            htmlmixed='
+<link rel="import" href="tutorialimports.html">
+<style is="custom-style">
+body,textarea {
+  @apply(--paper-font-body1)
+}
+</style>
+<template is="dom-bind">
+
+  <paper-toolbar>
+    <paper-tabs class="fit" selected="{{selected}}">
+      <paper-tab>HTML</paper-tab>
+      <paper-tab>CSS</paper-tab>
+      <paper-tab>Dart</paper-tab>
+    </paper-tabs>
+  </paper-toolbar>
+
+  <iron-pages selected="{{selected}}">
+    <textarea id="html"><p>Hello world!</p></textarea>
+    <textarea id="css">p{ font-size:20px}</textarea>
+    <textarea id="dart">import "dart:html";
+void main() => querySelector("p").text = "Is this working?";
+    </textarea>
+  </iron-pages>
+  <paper-fab on-tap="showOutput" class="block" mini icon="av:play-arrow"></paper-fab>
+  <iframe srcdoc="{{htmloutput}}"></iframe>
+</template>
+'
+            css="
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+}
+textarea::focus {
+  outline: none;
+}
+paper-toolbar, paper-tabs {
+  height: 32px;
+}
+iframe {
+  border: none;
+}"
+            dart="
+import 'dart:html';
+import 'dart:js';
+import 'dart:convert';
+
+var $ = querySelector;
+var scope =
+    new JsObject.fromBrowserObject($('template[is=dom-bind]'));
+TextAreaElement html = $('#html');
+TextAreaElement css = $('#css');
+TextAreaElement dart = $('#dart');
+const String url =
+'https://dart-services.appspot.com/api/dartservices/v1/compile';
+
+void main() {
+  scope['selected'] = 0;
+  scope['showOutput'] = (e, object) {
+    scope['htmloutput'] = 'Compiling..';
+    compileDart();
+  };
+}
+compileDart() async {
+  var request = await HttpRequest.request(
+      url,
+      method: 'POST',
+      sendData: JSON.encode({'source': dart.value}));
+  var compiled = JSON.decode(request.response)['result'];
+  scope['htmloutput'] =
+  '<!doctype html>'
+  '<ht'+'ml>'
+  '  <he'+'ad><style>${css.value}</style></he'+'ad>'
+  '  <body>${html.value}<scr'+'ipt>$compiled</scr'+'ipt></body>'
+  '</ht'+'ml>';
+}"></dart-pad>
+</section>
+</template>
+</dom-module>
+
+<script>
+Polymer({
+  is: "tutorial-compile"
+});
+</script>

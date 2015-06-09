@@ -40,6 +40,27 @@ ul {
   padding-left: 20px;
 }
 
+
+@media (max-width: 1500px) {
+  #documentation, #documentation div {
+    width: 550px;
+  }
+  dart-doc .CodeMirror {
+    width: 530px !important;
+  }
+}
+
+
+@media (max-width: 1400px) {
+  #documentation, #documentation div {
+    width: 500px;
+  }
+  dart-doc .CodeMirror {
+    width: 480px !important;
+  }
+}
+
+
 @media (max-width: 1300px) {
   #documentation, #documentation div {
     width: 400px;
@@ -126,7 +147,7 @@ iron-icon.small {
 
 code {
 @apply(--paper-font-code1);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--dark-primary-color);
 }
 
@@ -161,4 +182,16 @@ dart-doc h2 {
   /*padding: 0;*/
   /*border: 0;*/
 /*}*/
+
+
+
+a {
+  text-transform: none;
+  color: var(--default-primary-color);
+}
+
+marked-element p {
+  margin: 10px 0;
+}
+
 </style>

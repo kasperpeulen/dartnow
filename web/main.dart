@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:js';
 import 'dart:convert';
 
+JsObject scope = new JsObject.fromBrowserObject($('template[is=dom-bind]'));
 CodeMirror activeEditor;
 PolymerBase activePad;
 IFrameElement result = querySelector("iframe");
@@ -22,10 +23,33 @@ Doc getDoc() {
 }
 
 void main() {
-  querySelectorAll("dart-pad").forEach((pad) {
-    initPad(new PolymerBase.from(pad));
-    pad.querySelectorAll(".editor").forEach((e) => initEditor(pad, e));
+  scope["selectedPage"] = 1;
+
+  scope["refreshEditor"] = (e,o) {
+    Timer.run(() => instances.forEach((_,e) => e.refresh()));
+  };
+  Timer.run(() {
+    var a = querySelector("tutorial-simple");
+    print(a);
+    var b = querySelectorAll("dart-pad");
+    print(b);
+    var c = a.querySelectorAll("dart-pad");
+    print (c);
+    var d = context["Polymer"].callMethod("dom", [new JsObject.fromBrowserObject($("tutorial-simple"))]);
+    print(d);
+    print(d["node"]);
+    var e = d.callMethod("querySelectorAll",["dart-pad"]);
+    print(e);
+
+    querySelectorAll("dart-pad").forEach((pad) {
+      initPad(new PolymerBase.from(pad));
+      pad.querySelectorAll(".editor").forEach((e) => initEditor(pad, e));
+    });
   });
+
+//  print(context["Polymer"].callMethod("dom", [new JsObject.fromBrowserObject($("tutorial-simple"))]));
+
+
 }
 
 void initEditor(Element pad, Element el) {
@@ -109,6 +133,9 @@ void computeDartDoc() {
           return;
         }
         if (info['dartdoc'] == null) info['dartdoc'] = "";
+
+
+
         dartDoc["element"] = info['description'];
         dartDoc["dartdoc"] = info['dartdoc'].replaceAllMapped(
             new RegExp(r"(\[.+\])\s(\(.+\))"), (m) {
