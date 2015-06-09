@@ -44,14 +44,14 @@ paper-fab {
   opacity: 0.75;
 }
 .editor {
-  @apply(--paper-font-code1);
+@apply(--paper-font-code1);
   font-size: 15px;
   white-space: pre-wrap;
   /*display:none;*/
 }
 iframe {
   width: 100%;
-  height: 400px;
+  /*height: 500px;*/
   /*border: none;*/
   /*box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;*/
 }
@@ -65,34 +65,34 @@ paper-progress {
 <paper-material elevation="1">
 
 
-<iron-pages selected="{{selectedPage}}" id="pages">
-  <paper-material elevation="1">
-    <paper-toolbar style="height:32px">
-      <paper-tabs on-tap="handleTab" class="bottom fit" style="top:inherit;" selected="{{selectedTab}}">
-        <paper-tab>Dart</paper-tab>
-        <paper-tab>HTML</paper-tab>
-        <paper-tab>CSS</paper-tab>
-      </paper-tabs>
-      <paper-progress id="run-progress" indeterminate="" hidden="{{progress}}" class="bottom fit" style="top: inherit;"></paper-progress>
-    </paper-toolbar>
-    <paper-fab mini="" id="run-button" on-tap="openResult" icon="av:play-arrow" style="position: absolute; bottom: 5px; right: 5px;"></paper-fab>
-    <iron-pages id="editpanel" selected="{{selectedTab}}">
-      <div class="editor" id="dart"><span>{{dart}}</span></div>
-      <div class="editor" id="htmlmixed"><span>{{htmlmixed}}</span></div>
-      <div class="editor" id="css"><span>{{css}}</span></div>
-    </iron-pages>
-  </paper-material>
+  <iron-pages selected="{{selectedPage}}" id="pages">
+    <paper-material elevation="1">
+      <paper-toolbar style="height:32px">
+        <paper-tabs on-tap="handleTab" class="bottom fit" style="top:inherit;" selected="{{selectedTab}}">
+          <paper-tab>Dart</paper-tab>
+          <paper-tab>HTML</paper-tab>
+          <paper-tab>CSS</paper-tab>
+        </paper-tabs>
+        <paper-progress id="run-progress" indeterminate="" hidden="{{progress}}" class="bottom fit" style="top: inherit;"></paper-progress>
+      </paper-toolbar>
+      <paper-fab mini="" id="run-button" on-tap="openResult" icon="av:play-arrow" style="position: absolute; bottom: 5px; right: 5px;"></paper-fab>
+      <iron-pages id="editpanel" selected="{{selectedTab}}">
+        <div class="editor" id="dart"><span>{{dart}}</span></div>
+        <div class="editor" id="htmlmixed"><span>{{htmlmixed}}</span></div>
+        <div class="editor" id="css"><span>{{css}}</span></div>
+      </iron-pages>
+    </paper-material>
 
-  <paper-material elevation="1">
-    <paper-fab class="self-start back-button" style="position: absolute; bottom: 5px; right: 5px;" icon="arrow-back" on-tap="openEditor" mini=""></paper-fab>
+    <paper-material elevation="1">
+      <paper-fab class="self-start back-button" style="position: absolute; bottom: 5px; right: 5px;" icon="arrow-back" on-tap="openEditor" mini=""></paper-fab>
 
-    <div class="flex">
-      <iframe sandbox="allow-same-origin allow-scripts" srcdoc="{{result}}" frameborder="0" scrolling="no" id="iframe" onresize="resizeIframe(this);" onload="resizeIframe(this);">
+      <div class="flex">
+        <iframe sandbox="allow-same-origin allow-scripts" srcdoc="iframe.html" frameborder="0" scrolling="no" id="iframe" onresize="resizeIframe(this);" onload="resizeIframe(this);">
         </iframe>
-    </div>
+      </div>
 
-  </paper-material>
-</iron-pages>
+    </paper-material>
+  </iron-pages>
 </paper-material>
 </template>
 <script>
@@ -149,9 +149,7 @@ function resizeIframe(obj) {
   obj.contentWindow.document.onclick =  function() {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
   };
-  if (obj.contentWindow.document.body.scrollHeight != 0) {
-    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-  }
+  obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 }
 </script>
 </body></html>
