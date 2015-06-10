@@ -2,164 +2,30 @@
 
 <dom-module id="tutorial-simple">
   <style>
-  header {
-    padding: 20px 14px;
-    border-bottom: 1px solid #e5e5e5;
-    font-size: 20px;
-    font-weight: 400;
-  }
+    h2 {
+      font-size: 18px;
+      letter-spacing: 0;
+      margin: 8px 0;
+      text-rendering: optimizeLegibility;
+      font-weight: 400;
+    }
 
-  section {
-    padding: 10px;
-  }
-
-
-  iron-icon {
-    color: var(--default-primary-color);
-    margin-right: 10px;
-  }
-
-  iron-icon.big {
-    height: 50px;
-    width: 50px;
-  }
-
-
-  iron-icon.small {
-    height: 15px;
-    width: 15px;
-  }
-
-  h1, h2 {
-    font-weight: 400;
-  }
-
-  h4 {
-    line-height: 24px
-  }
-
-  body, h1, h2, h3, h4 {
-    font-weight: 400
-  }
-
-  body, h5, h6, p {
-    font-size: 13px;
-    line-height: 20px
-  }
-
-  a, body, paper-toolbar {
-    color: #424242
-  }
-
-  body {
-    font-family: Roboto, Noto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: transparent
-  }
-
-  code, pre {
-    font-family: Inconsolata, monospace;
-    font-size: 14px;
-  }
-
-  a, h1, h2, h3, h4, h5, h6 {
-    text-rendering: optimizeLegibility
-  }
-
-  a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: .018em
-  }
-
-  h1 {
-    font-size: 45px;
-    letter-spacing: -.018em
-  }
-
-  h2 {
-    font-size: 18px;
-    letter-spacing: 0;
-    margin: 8px 0
-  }
-
-  h3 {
-    font-size: 24px;
-    letter-spacing: -.012em;
-    line-height: 32px
-  }
-
-  h4 {
-    font-size: 16px
-  }
-
-  paper-toolbar {
-    transition: height 450ms cubic-bezier(.55, 0, .1, 1)
-  }
-
-  paper-toolbar.medium-tall {
-    height: 107px
-  }
-
-  paper-toolbar nav {
-    margin: 12px 0 0
-  }
-
-  paper-toolbar nav a {
-    display: inline-block;
-    font-weight: 500;
-    line-height: 50px;
-    text-transform: none;
-    color: #666;
-    margin: 0 12px;
-    padding: 0 4px
-  }
-
-  paper-toolbar nav a:hover {
-    color: #536DFE
-  }
-
-  paper-toolbar nav a:first-child {
-    margin-left: 0
-  }
-
-  paper-toolbar nav .active {
-    color: #000;
-    border-bottom: 2px solid #7986CB
-  }
-
-
-  p a {
-    text-transform: none;
-    color: var(--default-primary-color);
-  }
-
-  li p {
-    margin: 0
-  }
-
-  aside {
-    margin: 40px;
-    padding: 20px 40px;
-    background-color: #fafafa;
-    border: 1px solid #e5e5e5
-  }
-
-  h1 {
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: 400;
-  }
+    a {
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: .018em;
+      text-transform: none;
+      color: var(--default-primary-color);
+      text-rendering: optimizeLegibility;
+    }
+    code {
+      @apply(--paper-font-code1);
+      font-size: 14px;
+      color: var(--dark-primary-color);
+    }
   </style>
   <template>
-  <header>
-    <iron-icon icon="social:school"></iron-icon>
-    <h1>Tutorial: A simple web app.</h1>
-  </header>
-  <section>
+
     <h2>Step 1</h2>
     <p>The Document Object Model (DOM) represents the structure of a web document as a tree of nodes. When an HTML file is loaded into a browser, the browser interprets the HTML and displays the document in a window. Let's take a look at the following html file. Click the run button to see how it looks.</p>
     <dart-pad selected-tab="1" id="step1"
@@ -205,7 +71,6 @@ body {
   font-weight: 400;
   line-height: 20px;
 }"></dart-pad>
-  </section>
   </template>
 </dom-module>
 

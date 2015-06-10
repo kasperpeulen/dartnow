@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dart Now!</title>
+    <script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="imports.html">
+    <link rel="import" href="theme.html">
+    <!--<link rel="import" href="style.html">-->
+    <style is="custom-style">
+      #menu, #tutorial, #doc, #issues {
+        @apply(--shadow-elevation-2dp);
+      }
+
+      #menu, #rightpanel {
+        margin: 20px;
+      }
+
+      #tutorial {
+        margin: 20px auto;
+      }
+
+      #doc, #issues {
+        margin: 0 0 20px 0;
+      }
+
+      #rightpanel div {
+        position: fixed;
+        width: inherit;
+      }
+
+      #menu {
+        width: 300px;
+      }
+
+      #tutorial {
+        width: 700px;
+      }
+
+      #rightpanel {
+        width: 700px;
+      }
+
+      @media (max-width: 1800px) {
+        #menu {
+         width: 200px;
+        }
+      }
+
+      @media (max-width: 1700px) {
+        #rightpanel {
+          width: 600px;
+        }
+      }
+
+      @media (max-width: 1600px) {
+        #tutorial {
+          width: 600px;
+        }
+      }
+
+      @media (max-width: 1500px) {
+        #rightpanel {
+          width: 500px;
+        }
+      }
+
+      @media (max-width: 1400px) {
+        #rightpanel {
+          width: 400px;
+        }
+      }
+
+      @media (max-width: 1300px) {
+        #tutorial {
+          width: 500px;
+        }
+      }
+
+      @media (max-width: 1200px) {
+        #rightpanel {
+          width: 300px;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        #rightpanel {
+          width: 200px;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        #tutorial {
+          width: 600px;
+        }
+        #rightpanel {
+          display: none;
+        }
+      }
+
+      @media (max-width: 850px) {
+        #menu {
+          display: none;
+        }
+      }
+
+      header {
+        padding: 20px 14px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      header h1 {
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        font-size: 20px;
+        font-weight: 400;
+      }
+
+      section {
+        padding: 10px;
+      }
+
+      .menu {
+        padding: 7px;
+        background: var(--default-primary-color);
+        color: white;
+      }
+
+      paper-item.iron-selected {
+        font-weight: 400;
+      }
+      .CodeMirror {
+      @apply(--paper-font-code1);
+        text-rendering: optimizeLegibility;
+        font-size: 14px;
+        height: auto;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+      dart-doc .CodeMirror * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      }
+
+      dart-doc .CodeMirror {
+      width: 480px !important;
+      display: inline-block;
+      /*margin: 0;*/
+      /*padding: 0;*/
+      }
+
+      dart-doc h2 {
+      font-size: 15px !important;
+      }
+    </style>
+  </head>
+  <body class="fullbleed horizontal layout start" unresolved>
+    <template is="dom-bind">
+      <nav id="menu">
+        <header class="menu">
+          <iron-icon class="big" icon="dart:bird"></iron-icon>
+          <h1>Dart Now!</h1>
+        </header>
+        <paper-menu on-tap="refreshEditor" selected="{{selectedPage}}">
+          <paper-item>A simple web app</paper-item>
+          <paper-item>Compile dart online!</paper-item>
+        </paper-menu>
+      </nav>
+
+      <div id="tutorial">
+        <iron-pages selected="{{selectedPage}}">
+          <article>
+            <header>
+              <iron-icon icon="social:school"></iron-icon>
+              <h1>Tutorial: A simple web app.</h1>
+            </header>
+            <section>
+              <tutorial-simple></tutorial-simple>
+            </section>
+          </article>
+          <article>
+            <header>
+              <iron-icon icon="social:school"></iron-icon>
+              <h1>Tutorial: Compile dart to javascript with dart services.</h1>
+            </header>
+            <section>
+              <tutorial-compile></tutorial-compile>
+            </section>
+          </article>
+        </iron-pages>
+      </div>
+
+      <div id="rightpanel" style="border: 1px solid black">
+        <div class="vertical layout">
+          <div id="doc">
+            <header>
+              <iron-icon icon="av:library-books"></iron-icon>
+              <h1>Documentation</h1>
+            </header>
+            <section>
+              <dart-doc element="print" dartdoc="hello"></dart-doc>
+            </section>
+          </div>
+
+          <div id="issues" hidden>
+            <header>
+              <iron-icon icon="icons:error"></iron-icon>
+              <h1>Issues</h1>
+            </header>
+            <section>
+              <dart-issues></dart-issues>
+            </section>
+          </div>
+        </div>
+      </div>
+    </template>
+    <script type="application/dart" src="main.dart"></script>
+  </body>
+</html>
