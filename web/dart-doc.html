@@ -4,53 +4,6 @@
 <style>
 
 
-h1, h2 {
-  font-weight: 400;
-}
-
-h4 {
-  line-height: 24px
-}
-
-body, h1, h2, h3, h4 {
-  font-weight: 400
-}
-
-body, h5, h6, p {
-  font-size: 13px;
-  line-height: 20px
-}
-
-a, body, paper-toolbar {
-  color: #424242
-}
-
-body {
-  font-family: Roboto, Noto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: transparent
-}
-
-code, pre {
-  font-family: Inconsolata, monospace;
-  font-size: 14px;
-}
-
-a, h1, h2, h3, h4, h5, h6 {
-  text-rendering: optimizeLegibility
-}
-
-a {
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: .018em
-}
-
-p a {
-  text-transform: none;
-  color: var(--default-primary-color);
-}
 
 
 h1 {
@@ -64,6 +17,42 @@ h1.css {
 }
 h2 {
   font-size: 15px !important;
+}
+
+
+paper-button {
+  padding-bottom: 10px;
+}
+
+
+a {
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: .018em;
+  text-transform: none;
+  color: var(--default-primary-color);
+  text-rendering: optimizeLegibility;
+}
+
+code {
+@apply(--paper-font-code1);
+  font-size: 14px;
+  color: var(--dark-primary-color);
+}
+
+.CodeMirror {
+@apply(--paper-font-code1);
+  font-size: 14px;
+  height: auto;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  padding-left: 20px;
 }
 
 iron-icon.small {
@@ -129,18 +118,9 @@ section {
   }
 }
 
-paper-button {
-  padding-bottom: 10px;
-}
-
-marked-element p {
-  margin: 0;
-}
-
-
 </style>
 <template>
-<iron-pages selected="{{selectedPage}}">
+<iron-pages id="scope" selected="{{selectedPage}}">
   <p>You can look up documentation by clicking on some dart or css code!</p>
   <section>
     <h1><iron-icon class="small" src="http://www.yellosoft.us/public/images/dart.svg"></iron-icon>{{element}}</h1>
@@ -170,6 +150,9 @@ Polymer({
     }, cssvalues: {
       type: Array
     }
+  },
+  attached: function() {
+    this.scopeSubtree(this.$.scope, true);
   },
   openWP : function(e) {
     window.open(
