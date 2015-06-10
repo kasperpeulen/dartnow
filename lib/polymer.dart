@@ -31,6 +31,8 @@ class PolymerBase {
 
   operator [](String propertyName) => js[propertyName];
 
+  operator |(String propertyName) => js[propertyName];
+
   operator []=(String propertyName, dynamic value) {
     js[propertyName] = value;
   }
