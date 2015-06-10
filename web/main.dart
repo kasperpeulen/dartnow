@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:js';
 import 'dart:convert';
 
+JsObject scope = new JsObject.fromBrowserObject($('template[is=dom-bind]'));
 CodeMirror activeEditor;
 PolymerBase activePad;
 IFrameElement result = querySelector("iframe");
@@ -22,10 +23,18 @@ Doc getDoc() {
 }
 
 void main() {
-  querySelectorAll("dart-pad").forEach((pad) {
-    initPad(new PolymerBase.from(pad));
-    pad.querySelectorAll(".editor").forEach((e) => initEditor(pad, e));
+  scope["selectedPage"] = 1;
+
+  scope["refreshEditor"] = (e,o) {
+    Timer.run(() => instances.forEach((_,e) => e.refresh()));
+  };
+  Timer.run(() {
+    querySelectorAll("dart-pad").forEach((pad) {
+      initPad(new PolymerBase.from(pad));
+      pad.querySelectorAll(".editor").forEach((e) => initEditor(pad, e));
+    });
   });
+
 }
 
 void initEditor(Element pad, Element el) {
@@ -139,7 +148,7 @@ void initPad(PolymerBase pad) {
       pad["progress"] = true;
     } else {
       var input = new CompileRequest()
-        ..source = pad["dart"];
+        ..source = pad["dart"].replaceAll("script>","scr'+'ipt>").replaceAll("head>","he'+'ad>");
       var doc = instances[pad.element.id+"dart"].getDoc();
       SourceRequest request = new SourceRequest()
         ..offset = doc.indexFromPos(doc.getCursor())

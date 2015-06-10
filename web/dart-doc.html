@@ -2,16 +2,59 @@
 
 <dom-module id="dart-doc">
 <style>
+
+
+
+
 h1 {
  @apply(--paper-font-code2);
   font-size: 16px !important;
+  margin-top: 5px;
 }
 h1.css {
   font-size: 16pt !important;
+  margin-top: 5px;
 }
 h2 {
   font-size: 15px !important;
 }
+
+
+paper-button {
+  padding-bottom: 10px;
+}
+
+
+a {
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: .018em;
+  text-transform: none;
+  color: var(--default-primary-color);
+  text-rendering: optimizeLegibility;
+}
+
+code {
+@apply(--paper-font-code1);
+  font-size: 14px;
+  color: var(--dark-primary-color);
+}
+
+.CodeMirror {
+@apply(--paper-font-code1);
+  font-size: 14px;
+  height: auto;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
 iron-icon.small {
   height: 18px;
   width: 18px;
@@ -19,7 +62,7 @@ iron-icon.small {
 }
 
 #values dt code {
-  font-size: 12pt;
+  font-size: 14px;
   font-family: 'Inconsolata', monospace;
   font-weight: bold;
 }
@@ -29,16 +72,55 @@ iron-icon.small {
 }
 
 section {
-  max-height: 500px;
-  overflow: scroll;
+  max-height: 1000px;
+  overflow-y: scroll;
 }
 
-paper-button {
-  padding-bottom: 10px;
+
+@media (max-height: 1100px) {
+  section {
+    max-height: 900px;
+  }
 }
+
+@media (max-height: 1000px) {
+  section {
+    max-height: 800px;
+  }
+}
+
+@media (max-height: 900px) {
+  section {
+    max-height: 700px;
+  }
+}
+
+@media (max-height: 800px) {
+  section {
+    max-height: 600px;
+  }
+}
+
+@media (max-height: 700px) {
+  section {
+    max-height: 500px;
+  }
+}
+
+@media (max-height: 600px) {
+  section {
+    max-height: 400px;
+  }
+}
+@media (max-height: 500px) {
+  section {
+    max-height: 300px;
+  }
+}
+
 </style>
 <template>
-<iron-pages selected="{{selectedPage}}">
+<iron-pages id="scope" selected="{{selectedPage}}">
   <p>You can look up documentation by clicking on some dart or css code!</p>
   <section>
     <h1><iron-icon class="small" src="http://www.yellosoft.us/public/images/dart.svg"></iron-icon>{{element}}</h1>
@@ -68,6 +150,9 @@ Polymer({
     }, cssvalues: {
       type: Array
     }
+  },
+  attached: function() {
+    this.scopeSubtree(this.$.scope, true);
   },
   openWP : function(e) {
     window.open(

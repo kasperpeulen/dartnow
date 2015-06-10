@@ -1,96 +1,205 @@
 <!DOCTYPE html>
-<script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
-<link rel="import" href="imports.html">
-<link rel="import" href="theme.html">
-<link rel="import" href="style.html">
-<body class="fullbleed horizontal layout start" unresolved>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dart Now!</title>
+    <script src="elements/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="imports.html">
+    <link rel="import" href="theme.html">
+    <style is="custom-style">
+      #menu, #tutorial, #doc, #issues {
+      @apply(--shadow-elevation-2dp);
+      }
 
-  <nav>
-    <header id="menu">
-      <iron-icon class="big"
-                 src="https://www.dartlang.org/logos/dart-bird.svg"></iron-icon>
-      <h1>Dart Now!</h1>
-    </header>
-    <paper-menu>
-      <paper-item>A simple web app</paper-item>
-    </paper-menu>
-  </nav>
+      #menu, #rightpanel {
+        margin: 20px;
+      }
 
-  <div id="tutorial" class="flex">
-    <header>
-      <iron-icon icon="social:school"></iron-icon>
-      <h1>Tutorial: A simple web app.</h1>
-    </header>
-    <section>
-      <h2>Step 1</h2>
-      <p>The Document Object Model (DOM) represents the structure of a web document as a tree of nodes. When an HTML file is loaded into a browser, the browser interprets the HTML and displays the document in a window. Let's take a look at the following html file. Click the run button to see how it looks.</p>
-      <dart-pad selected-tab="1" id="step1"
-                htmlmixed='<h1>Level 1 header</h1>
-<p>Hello world! This is a paragraph.</p>'
-          ></dart-pad>
-      <h2>Step 2</h2>
-      <p>Web applications written with only HTML may not be very pleasing for your eyes. With CSS we can style the DOM elements. For example, let's use the font Roboto.</p>
-      <dart-pad selected-tab="2" id="step2"
-                htmlmixed='
-<h1>Level 1 header</h1>
-<p>Hello world! This is a paragraph.</p>'
-               css="@import url(http://fonts.googleapis.com/css?family=Roboto);
+      #tutorial {
+        margin: 20px auto;
+      }
 
-body {
-  font-family: 'Roboto', 'Noto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-}"></dart-pad>
-      <h2>Step 3</h2>
-      <p>With HTML and CSS only, we can create beautiful websites, but it is all static. To respond to user interaction, we can use dart. Let's respond when the user clicks the paragraph.</p>
-      <dart-pad selected-tab="0" id="step3"
-                htmlmixed='<h1>Level 1 header</h1>
-<p>Hello world! This is a paragraph.</p>'
-                dart="import 'dart:html';
+      #doc, #issues {
+        margin: 0 0 20px 0;
+      }
 
-Element p = querySelector('p');
+      #rightpanel > div {
+        position: fixed;
+        width: inherit;
+      }
 
-void main(){
-  p.onClick.listen((_) {
-    p.text = 'Don\'t touch me !';
-  });
-}"
-                css="
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+      #menu {
+        width: 300px;
+      }
 
-body {
-  font-family: 'Roboto', 'Noto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-}"></dart-pad>
-    </section>
-  </div>
+      #tutorial {
+        width: 700px;
+      }
 
-  <div id="documentation">
-    <div class="fixed-right-top vertical layout">
-      <div id="doc">
-        <header>
-          <iron-icon icon="av:library-books"></iron-icon>
-          <h1>Documentation</h1>
+      #rightpanel {
+        width: 700px;
+      }
+
+      @media (max-width: 1800px) {
+        #menu {
+          width: 200px;
+        }
+      }
+
+      @media (max-width: 1700px) {
+        #rightpanel {
+          width: 600px;
+        }
+      }
+
+      @media (max-width: 1600px) {
+        #tutorial {
+          width: 600px;
+        }
+      }
+
+      @media (max-width: 1500px) {
+        #rightpanel {
+          width: 500px;
+        }
+      }
+
+      @media (max-width: 1400px) {
+        #rightpanel {
+          width: 400px;
+        }
+      }
+
+      @media (max-width: 1300px) {
+        #tutorial {
+          width: 500px;
+        }
+      }
+
+      @media (max-width: 1200px) {
+        #rightpanel {
+          width: 300px;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        #rightpanel {
+          width: 200px;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        #tutorial {
+          width: 600px;
+        }
+        #rightpanel {
+          display: none;
+        }
+      }
+
+      @media (max-width: 850px) {
+        #menu {
+          display: none;
+        }
+      }
+
+      header {
+        padding: 20px 14px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      header h1 {
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        font-size: 20px;
+        font-weight: 400;
+      }
+
+      section {
+        padding: 10px;
+      }
+
+      .menu {
+        padding: 7px;
+        background: var(--default-primary-color);
+        color: white;
+      }
+
+      paper-item.iron-selected {
+        font-weight: 400;
+      }
+
+      .CodeMirror {
+      @apply(--paper-font-code1);
+        text-rendering: optimizeLegibility;
+        font-size: 14px;
+        height: auto;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body class="fullbleed horizontal layout start" unresolved>
+    <template is="dom-bind">
+      <nav id="menu">
+        <header class="menu">
+          <iron-icon class="big" icon="dart:bird"></iron-icon>
+          <h1>Dart Now!</h1>
         </header>
-        <section>
-          <dart-doc element="print" dartdoc="hello"></dart-doc>
-        </section>
+        <paper-menu on-tap="refreshEditor" selected="{{selectedPage}}">
+          <paper-item>A simple web app</paper-item>
+          <paper-item>Compile dart online!</paper-item>
+        </paper-menu>
+      </nav>
+
+      <div id="tutorial">
+        <iron-pages selected="{{selectedPage}}">
+          <article>
+            <header>
+              <iron-icon icon="social:school"></iron-icon>
+              <h1>Tutorial: A simple web app.</h1>
+            </header>
+            <section>
+              <tutorial-simple></tutorial-simple>
+            </section>
+          </article>
+          <article>
+            <header>
+              <iron-icon icon="social:school"></iron-icon>
+              <h1>Tutorial: Compile dart to javascript with dart services.</h1>
+            </header>
+            <section>
+              <tutorial-compile></tutorial-compile>
+            </section>
+          </article>
+        </iron-pages>
       </div>
-      <div id="issues" hidden>
-        <header>
-          <iron-icon icon="icons:error"></iron-icon>
-          <h1>Issues</h1>
-        </header>
-        <section>
-          <dart-issues></dart-issues>
-        </section>
+
+      <div id="rightpanel" style="border: 1px solid black">
+        <div class="vertical layout">
+          <div id="doc">
+            <header>
+              <iron-icon icon="av:library-books"></iron-icon>
+              <h1>Documentation</h1>
+            </header>
+            <section>
+              <dart-doc element="print" dartdoc="hello"></dart-doc>
+            </section>
+          </div>
+
+          <div id="issues" hidden>
+            <header>
+              <iron-icon icon="icons:error"></iron-icon>
+              <h1>Issues</h1>
+            </header>
+            <section>
+              <dart-issues></dart-issues>
+            </section>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <script type="application/dart" src="main.dart"></script>
-</body>
+    </template>
+    <script type="application/dart" src="main.dart"></script>
+  </body>
+</html>
